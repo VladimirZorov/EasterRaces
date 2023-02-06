@@ -4,32 +4,50 @@ import easterRaces.entities.drivers.Driver;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
-public class RaceImpl implements Race{
+import static easterRaces.common.ExceptionMessages.INVALID_NAME;
+import static easterRaces.common.ExceptionMessages.INVALID_NUMBER_OF_LAPS;
+
+public class RaceImpl implements Race {
 
     private String name;
     private int laps;
     private Collection<Driver> drivers;
 
     public RaceImpl(String name, int laps) {
-        this.name = name;
+        this.setName(name);
         this.laps = laps;
         this.drivers = new ArrayList<>();
     }
 
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty() || name.length() < 5) {
+            throw new IllegalArgumentException(String.format(INVALID_NAME, name, 5));
+        }
+        this.name = name;
+    }
+
+    public void setLaps(int laps) {
+        if (laps < 1) {
+            throw new IllegalArgumentException(String.format(INVALID_NUMBER_OF_LAPS, 1));
+        }
+        this.laps = laps;
+    }
+
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public int getLaps() {
-        return 0;
+        return this.laps;
     }
 
     @Override
     public Collection<Driver> getDrivers() {
-        return null;
+        return Collections.unmodifiableCollection(drivers);
     }
 
     @Override

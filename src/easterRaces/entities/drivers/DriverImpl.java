@@ -21,7 +21,7 @@ public class DriverImpl implements Driver {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty() || name.length() < 5) {
-            throw new IllegalArgumentException(String.format(INVALID_NAME, name));
+            throw new IllegalArgumentException(String.format(INVALID_NAME, name, 5));
         }
         this.name = name;
     }
@@ -46,6 +46,7 @@ public class DriverImpl implements Driver {
         if (car == null) {
             throw new IllegalArgumentException(CAR_INVALID);
         } else {
+            this.car = car;
             canParticipate = true;
         }
     }
