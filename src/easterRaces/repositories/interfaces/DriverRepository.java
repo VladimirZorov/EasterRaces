@@ -4,6 +4,7 @@ import easterRaces.entities.drivers.Driver;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class DriverRepository implements Repository<Driver>{
 
@@ -20,16 +21,28 @@ public class DriverRepository implements Repository<Driver>{
 
     @Override
     public Collection<Driver> getAll() {
-        return null;
+        return Collections.unmodifiableCollection(drivers);
     }
 
     @Override
     public void add(Driver model) {
-
+        boolean driverNameExist = false;
+        for (Driver driver : drivers) {
+            if (driver.getName().equals(model.getName())) {
+                driverNameExist = true;
+            }
+            if (!driverNameExist) {
+                drivers.add(model);
+            }
+        }
     }
 
     @Override
     public boolean remove(Driver model) {
+        for (Driver driver : drivers){
+            drivers.remove(model);
+            return true;
+        }
         return false;
     }
 }
