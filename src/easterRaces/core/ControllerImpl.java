@@ -10,16 +10,14 @@ import easterRaces.repositories.interfaces.CarRepository;
 import easterRaces.repositories.interfaces.DriverRepository;
 import easterRaces.repositories.interfaces.RaceRepository;
 
-import static easterRaces.common.ExceptionMessages.DRIVER_EXISTS;
-import static easterRaces.common.OutputMessages.DRIVER_CREATED;
+import static easterRaces.common.ExceptionMessages.*;
+import static easterRaces.common.OutputMessages.*;
 
 public class ControllerImpl implements Controller {
 
     private CarRepository carRepository;
     private DriverRepository driverRepository;
     private RaceRepository raceRepository;
-
-
 
     public ControllerImpl() {
         this.carRepository = new CarRepository();
@@ -46,21 +44,51 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String createCar(String type, String model, int horsePower) {
-        Car car;
-        if (type.equals("MuscleCar")) {
-
-
-
+        Car car = null;
+        boolean carExist = false;
+        if (type.equals("Muscle")) {
             car = new MuscleCar(model, horsePower);
-        } else if (type.equals("SportsCar")) {
+            for(Car car1 : carRepository.getAll()) {
+                if (car1.getModel().equals(car.getModel())) {
+                    throw new IllegalArgumentException(String.format(CAR_EXISTS, model));
+                }
+            }
+        } else if (type.equals("Sports")) {
             car = new SportsCar(model, horsePower);
+            for(Car car1 : carRepository.getAll()) {
+                if (car1.getModel().equals(car.getModel())) {
+                    throw new IllegalArgumentException(String.format(CAR_EXISTS, model));
+                }
+            }
         }
-        return null;
+            carRepository.add(car);
+        return String.format(CAR_CREATED, type+"Car", model);
     }
 
     @Override
     public String addCarToDriver(String driverName, String carModel) {
-        return null;
+        Driver driver = null;
+        Car car = null;
+       boolean driverExist = false;
+       boolean carExist = false;
+        for (Driver driver1 : driverRepository.getAll()){
+            if (driver1.getName().equals(driverName)) {
+                driverExist = true;
+            } else {
+                throw new IllegalArgumentException(String.format(DRIVER_NOT_FOUND, driverName));
+            }
+        }
+        for (Car car1 : carRepository.getAll()) {
+            if (car1.getModel().equals(carModel)) {
+                carExist = true;
+            } else {
+                throw new IllegalArgumentException(String.format(CAR_NOT_FOUND, carModel));
+            }
+        }
+        if (driverExist && carExist){
+            driver.addCar(car);
+        }
+        return String.format(CAR_ADDED, driverName, carModel);
     }
 
     @Override
