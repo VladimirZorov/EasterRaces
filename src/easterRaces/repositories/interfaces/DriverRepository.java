@@ -16,6 +16,11 @@ public class DriverRepository implements Repository<Driver>{
 
     @Override
     public Driver getByName(String name) {
+        for (Driver driver : drivers) {
+            if (driver.getName().equals(name)) {
+                return driver;
+            }
+        }
         return null;
     }
 
@@ -39,7 +44,7 @@ public class DriverRepository implements Repository<Driver>{
 
     @Override
     public boolean remove(Driver model) {
-        for (Driver driver : drivers){
+        if (drivers.contains(model)) {
             drivers.remove(model);
             return true;
         }

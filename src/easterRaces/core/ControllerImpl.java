@@ -2,6 +2,8 @@ package easterRaces.core;
 
 import easterRaces.core.interfaces.Controller;
 import easterRaces.entities.cars.Car;
+import easterRaces.entities.cars.MuscleCar;
+import easterRaces.entities.cars.SportsCar;
 import easterRaces.entities.drivers.Driver;
 import easterRaces.entities.drivers.DriverImpl;
 import easterRaces.repositories.interfaces.CarRepository;
@@ -44,7 +46,15 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String createCar(String type, String model, int horsePower) {
+        Car car;
+        if (type.equals("MuscleCar")) {
 
+
+
+            car = new MuscleCar(model, horsePower);
+        } else if (type.equals("SportsCar")) {
+            car = new SportsCar(model, horsePower);
+        }
         return null;
     }
 

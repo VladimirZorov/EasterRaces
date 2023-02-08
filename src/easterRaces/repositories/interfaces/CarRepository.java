@@ -16,6 +16,11 @@ public class CarRepository implements Repository<Car>{
 
     @Override
     public Car getByName(String name) {
+        for (Car car : cars) {
+            if (car.getModel().equals(name)) {
+                return car;
+            }
+        }
         return null;
     }
 
@@ -31,6 +36,10 @@ public class CarRepository implements Repository<Car>{
 
     @Override
     public boolean remove(Car model) {
+        if (cars.contains(model)){
+            cars.remove(model);
+            return true;
+        }
         return false;
     }
 }
