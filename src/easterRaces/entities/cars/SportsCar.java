@@ -8,7 +8,8 @@ public class SportsCar extends BaseCar{
     private int horsePower;
 
     public SportsCar(String model, int horsePower) {
-        super(model, horsePower, CUBIC_CENTIMETERS);
+        super(model, horsePower,CUBIC_CENTIMETERS);
+        this.setHorsePower(horsePower);
     }
 
     public void setHorsePower(int horsePower) {

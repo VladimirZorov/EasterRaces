@@ -13,7 +13,7 @@ public class DriverImpl implements Driver {
     private boolean canParticipate;
 
     public DriverImpl(String name) {
-        this.name = name;
+        this.setName(name);
         this.car = car;
         this.numberOfWins = numberOfWins;
         this.canParticipate = false;

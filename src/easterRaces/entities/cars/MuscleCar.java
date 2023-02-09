@@ -9,6 +9,7 @@ public class MuscleCar extends BaseCar{
 
     public MuscleCar(String model, int horsePower) {
         super(model, horsePower,CUBIC_CENTIMETERS);
+        this.setHorsePower(horsePower);
     }
 
     public void setHorsePower(int horsePower) {

@@ -96,8 +96,29 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String addDriverToRace(String raceName, String driverName) {
+        Driver driver = new DriverImpl(driverName);
+        boolean raceExist = false;
+        boolean driverExist = false;
 
-        return null;
+        for (Driver driver1 : driverRepository.getAll()){
+            if (driver1.getName().equals(driverName)) {
+                driverExist = true;
+            }
+        }
+
+        for (Race race : raceRepository.getAll()) {
+            if (race.getName().equals(raceName)) {
+                raceExist = true;
+            }
+            if (driverExist && raceExist) {
+                race.addDriver(driver);
+                return String.format(DRIVER_ADDED, driverName, raceName);
+                } else if (!driverExist && raceExist) {
+                throw new IllegalArgumentException(String.format(DRIVER_NOT_FOUND, driverName));
+            }
+            }
+
+        return String.format(RACE_NOT_FOUND, raceName);
     }
 
     @Override
