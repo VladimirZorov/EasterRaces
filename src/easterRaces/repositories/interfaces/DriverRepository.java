@@ -36,10 +36,10 @@ public class DriverRepository implements Repository<Driver>{
             if (driver.getName().equals(model.getName())) {
                 driverNameExist = true;
             }
+        }
             if (!driverNameExist) {
                 drivers.add(model);
             }
-        }
     }
 
     @Override
