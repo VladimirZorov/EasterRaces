@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import static easterRaces.common.ExceptionMessages.INVALID_NAME;
-import static easterRaces.common.ExceptionMessages.INVALID_NUMBER_OF_LAPS;
+import static easterRaces.common.ExceptionMessages.*;
 
 public class RaceImpl implements Race {
 
@@ -52,6 +51,15 @@ public class RaceImpl implements Race {
 
     @Override
     public void addDriver(Driver driver) {
+        if (driver == null) {
+            throw new IllegalArgumentException(DRIVER_INVALID);
+        } else if (driver.getCanParticipate() != true) {
+            throw new IllegalArgumentException(String.format(DRIVER_NOT_PARTICIPATE, driver.getName()));
+        } else if (drivers.contains(driver)) {
+           throw new IllegalArgumentException(String.format(DRIVER_ALREADY_ADDED, driver.getName()));
+       } else {
+            drivers.add(driver);
+        }
 
     }
 }

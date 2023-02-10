@@ -96,7 +96,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String addDriverToRace(String raceName, String driverName) {
-        Driver driver = new DriverImpl(driverName);
+
         boolean raceExist = false;
         boolean driverExist = false;
 
@@ -111,6 +111,7 @@ public class ControllerImpl implements Controller {
                 raceExist = true;
             }
             if (driverExist && raceExist) {
+                Driver driver = new DriverImpl(driverName);
                 race.addDriver(driver);
                 return String.format(DRIVER_ADDED, driverName, raceName);
                 } else if (!driverExist && raceExist) {
@@ -123,7 +124,16 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String startRace(String raceName) {
-        return null;
+        boolean raceExist = false;
+        for (Race race : raceRepository.getAll()){
+            if (race.getName().equals(raceName)) {
+                raceExist = true;
+            }
+        }
+        if (!raceExist) {
+            throw new IllegalArgumentException(String.format(RACE_NOT_FOUND, raceName));
+        }
+        return "driver";
     }
 
     @Override
