@@ -124,16 +124,26 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String startRace(String raceName) {
+        StringBuilder sb = new StringBuilder();
         boolean raceExist = false;
+
         for (Race race : raceRepository.getAll()){
             if (race.getName().equals(raceName)) {
                 raceExist = true;
+                Race race1 = new RaceImpl(raceName, race.getLaps());
+                if (race1.getDrivers().size() < 3) {
+                    throw new IllegalArgumentException(String.format(RACE_INVALID, raceName));
+                } else {
+                    sb.append(String.format(DRIVER_FIRST_POSITION, raceName, raceName)).append(System.lineSeparator());
+                    sb.append(String.format(DRIVER_SECOND_POSITION, raceName, raceName)).append(System.lineSeparator());
+                    sb.append(String.format(DRIVER_THIRD_POSITION, raceName, raceName)).append(System.lineSeparator());
+                }
             }
         }
         if (!raceExist) {
             throw new IllegalArgumentException(String.format(RACE_NOT_FOUND, raceName));
         }
-        return "driver";
+        return sb.toString().trim();
     }
 
     @Override
